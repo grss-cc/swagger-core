@@ -656,9 +656,10 @@ public class ModelResolver extends AbstractModelConverter implements ModelConver
                         return new Schema();
                     }
                 });
-                property = clone(context.resolve(aType));
-
+                Schema resolve = context.resolve(aType);
+                property = clone(resolve);
                 if (property != null) {
+                    property.setDescription(resolve.getDescription());
                     Boolean required = md.getRequired();
                     if (required != null && !Boolean.FALSE.equals(required)) {
                         addRequiredItem(model, propName);
@@ -697,7 +698,7 @@ public class ModelResolver extends AbstractModelConverter implements ModelConver
                                 property = new Schema().$ref(constructRef(pName));
                             }
                         } else if (property.get$ref() != null) {
-                            property = new Schema().$ref(StringUtils.isNotEmpty(property.get$ref()) ? property.get$ref() : property.getName());
+                            property = new Schema().$ref(StringUtils.isNotEmpty(property.get$ref()) ? property.get$ref() : property.getName()).description(property.getDescription());
                         }
                     }
                     property.setName(propName);

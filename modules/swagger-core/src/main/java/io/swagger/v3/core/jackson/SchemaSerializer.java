@@ -45,6 +45,7 @@ public class SchemaSerializer extends JsonSerializer<Schema> implements Resolvab
             // handle ref schema serialization skipping all other props
             jgen.writeStartObject();
             jgen.writeStringField("$ref", value.get$ref());
+            jgen.writeStringField("description", value.getDescription());
             jgen.writeEndObject();
         }
     }
